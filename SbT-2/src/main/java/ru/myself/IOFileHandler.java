@@ -7,7 +7,7 @@ class IOFileHandler implements FileHandler {
     public void writeToFile(String fileName, String data) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(data);
-            writer.newLine();
+//            writer.newLine();
         }
     }
 
@@ -15,10 +15,13 @@ class IOFileHandler implements FileHandler {
     public String readFromFile(String fileName) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
+            String line = reader.readLine();
+            while (line != null) {
                 sb.append(line);
-                sb.append(System.lineSeparator());
+                line = reader.readLine();
+                if(line != null){
+                    sb.append(System.lineSeparator());
+                }
             }
             return sb.toString();
         }
