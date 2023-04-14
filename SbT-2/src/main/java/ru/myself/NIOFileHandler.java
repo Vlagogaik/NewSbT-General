@@ -9,12 +9,14 @@ import java.nio.file.Paths;
 class NIOFileHandler implements FileHandler {
     @Override
     public void writeToFile(String fileName, String data) throws IOException {
-        Files.write(Paths.get(fileName), data.getBytes(StandardCharsets.UTF_8));
+        String dataWithNewLine = data.replace("\n", System.lineSeparator()); // Заменяем все символы перевода строки на системный символ перевода строки
+        Files.write(Paths.get(fileName), dataWithNewLine.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public String readFromFile(String fileName) throws IOException {
         byte[] encodedBytes = Files.readAllBytes(Paths.get(fileName));
-        return new String(encodedBytes, StandardCharsets.UTF_8);
+        String data = new String(encodedBytes, StandardCharsets.UTF_8);
+        return data.replace(System.lineSeparator(), "\n");
     }
 }
